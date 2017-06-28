@@ -16,6 +16,14 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile) {
+    options.setEncoding("UTF-8")
+}
+
+tasks.withType(Javadoc) {
+    options.setEncoding("UTF-8")
+}
+
 install {
     repositories.mavenInstaller {
         pom.project {
@@ -27,4 +35,38 @@ install {
             version project.version
         }
     }
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        repository(url: 'http://192.168.0.100:8081/repository/maven-tech/') {
+            authentication(userName: "tech-admin", password: "123456")
+        }
+        pom.project {
+            url 'http://192.168.0.100:8081/repository/maven-tech/'
+            packaging 'jar'
+            name project.name
+            description project.name
+            groupId "$project.group"
+            artifactId project.name
+            version project.version
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+    // from sourceSets.main.java.sourceFiles
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }

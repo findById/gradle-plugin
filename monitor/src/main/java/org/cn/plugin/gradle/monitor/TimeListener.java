@@ -24,23 +24,20 @@ public class TimeListener implements TaskExecutionListener, BuildListener {
 
     @Override
     public void settingsEvaluated(Settings settings) {
-
     }
 
     @Override
     public void projectsLoaded(Gradle gradle) {
-
     }
 
     @Override
     public void projectsEvaluated(Gradle gradle) {
-
     }
 
     @Override
     public void buildFinished(BuildResult buildResult) {
         System.out.println(String.format("Total times %sms", totalTime));
-        System.out.println(String.format("These tasks are simply taking far too long:"));
+        System.err.println(String.format("These tasks are simply taking far too long:"));
         for (Long time : times.keySet()) {
             if (time >= 100) {
                 System.out.println(String.format("%s - %sms ", times.get(time), time));
