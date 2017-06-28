@@ -1,3 +1,6 @@
+group = 'org.cn.plugin.gradle'
+version = '1.0'
+
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
@@ -13,13 +16,15 @@ repositories {
     mavenCentral()
 }
 
-group = 'org.cn.plugin.gradle'
-version = '1.0'
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repo'))
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'jar'
+            name project.name
+            description project.name
+            groupId "$project.group"
+            artifactId project.name
+            version project.version
         }
     }
 }

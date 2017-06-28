@@ -3,9 +3,9 @@
 buildscript {
     
     repositories {
-        maven {url uri('./repo')}
         google()
         jcenter()
+        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0-alpha4'
